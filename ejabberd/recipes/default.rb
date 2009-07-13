@@ -39,6 +39,12 @@ bash "Configure ejabberd" do
   command = "./configure"
   cwd "#{ejabberd[:folder]}/src"
   code "#{command}"
-  not_if "grep '$ #{command}\W*$' #{ejabberd[:folder]}/src/config.log"
+  not_if "grep '$ #{command}\\W*$' #{ejabberd[:folder]}/src/config.log"
   notifies :run, resources(:bash => "Build and install ejabberd"), :immediately
+end
+
+template "/etc/ejabberd/ejabberd.cfg" do
+  source "ejabberd.cfg.erb"
+  variables(:ejabberd => node[:ejabberd])
+  notifies :restart, resources(:service => "ejabberd")
 end
