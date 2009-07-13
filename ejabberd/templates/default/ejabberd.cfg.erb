@@ -179,5 +179,8 @@
 <% if @ejabberd[:modules].include? "http_bind" -%>
   {mod_http_bind,[]},
 <% end -%>
+<% if @ejabberd[:modules].include? "mod_ctlextra" -%>
+  {mod_ctlextra, []},
+<% end -%>
   {mod_version,  []}
 ]}.
