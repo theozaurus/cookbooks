@@ -1,0 +1,1 @@
+ejabberd_build_module "http_bind"

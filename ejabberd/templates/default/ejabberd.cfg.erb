@@ -40,6 +40,16 @@
 			{shaper, c2s_shaper},
 			{max_stanza_size, 65536}
 		       ]}
+<% if @ejabberd[:modules].include? "http_bind" -%>
+  ,{<%= @ejabberd[:http_bind][:port] %>, ejabberd_http, [
+       <% if @ejabberd[:http_bind][:tls] %>
+       tls, {certfile, "/etc/ejabberd/ejabberd.pem"},
+       <% end %>
+			 http_bind,
+			 http_poll,
+			 web_admin
+			]}
+<% end -%>
 <% @ejabberd[:services].each do |s| -%>
   ,{<%= s[:port] %>, ejabberd_service, [
                              { hosts, <%= s[:hosts][:jids].inspect %>, [{password, "<%= s[:hosts][:password] %>" }] },
@@ -166,5 +176,8 @@
   {mod_private,  []},
   {mod_roster,   []},
   {mod_vcard,    []},
+<% if @ejabberd[:modules].include? "http_bind" -%>
+  {mod_http_bind,[]},
+<% end -%>
   {mod_version,  []}
 ]}.
