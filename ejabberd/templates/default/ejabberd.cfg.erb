@@ -182,5 +182,8 @@
 <% if @ejabberd[:modules].include? "mod_ctlextra" -%>
   {mod_ctlextra, []},
 <% end -%>
+<% if @ejabberd[:modules].include? "mod_rabbitmq" -%>
+  {mod_rabbitmq, []},
+<% end -%>
   {mod_version,  []}
 ]}.
