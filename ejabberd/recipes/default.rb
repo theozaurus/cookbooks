@@ -29,7 +29,7 @@ end
 # Prepare build task
 bash "Build and install ejabberd" do
   cwd "#{ejabberd[:folder]}/src"
-  code "make clean && make && make install"
+  code "make clean && make && rm -rf /var/lib/ejabberd/ebin/* && make install"
   action :nothing
   notifies :restart, resources(:service => "ejabberd")
 end
