@@ -36,7 +36,7 @@ end
 
 # Configure ejabberd if required, and trigger building
 bash "Configure ejabberd" do
-  command = "./configure"
+  command = "./configure #{ejabberd[:options].join(" ")}"
   cwd "#{ejabberd[:folder]}/src"
   code "#{command}"
   not_if "grep '$ #{command}\\W*$' #{ejabberd[:folder]}/src/config.log"

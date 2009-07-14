@@ -83,7 +83,7 @@
 %%%   ==============
 %%%   DATABASE SETUP
 
-<% if @ejabberd.has_key?(:odbc) && @ejabberd[:odbc].has_key?(:mysql) -%>
+<% if @ejabberd[:modules].include? "odbc" -%>
 {odbc_server, {mysql, "<%= @ejabberd[:odbc][:mysql][:host] %>",
                       "<%= @ejabberd[:odbc][:mysql][:database] %>",
                       "<%= @ejabberd[:odbc][:mysql][:username] %>",
@@ -184,6 +184,17 @@
 <% end -%>
 <% if @ejabberd[:modules].include? "mod_rabbitmq" -%>
   {mod_rabbitmq, []},
+<% end -%>
+<% if @ejabberd[:modules].include? "mod_archive_odbc" -%>
+  {mod_archive_odbc, [{database_type, "mysql"},
+                      {default_auto_save, true},
+                      {enforce_default_auto_save, true},
+                      {default_expire, infinity},
+                      {enforce_min_expire, 0},
+                      {enforce_max_expire, infinity},
+                      {replication_expire, 31536000},
+                      {session_duration, 1800},
+                      {wipeout_interval, 86400}]},
 <% end -%>
   {mod_version,  []}
 ]}.
