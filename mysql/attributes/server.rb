@@ -22,7 +22,7 @@ chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 
 mysql Mash.new unless attribute?("mysql")
 mysql[:server_root_password] = db_password unless mysql.has_key?(:server_root_password)
-mysql[:bind_address]         = ipaddress unless mysql.has_key?(:bind_address)
+mysql[:bind_address]         = "localhost" unless mysql.has_key?(:bind_address)
 mysql[:datadir]              = "/var/lib/mysql" unless mysql.has_key?(:datadir)
 mysql[:ec2_path] = "/mnt/mysql" unless mysql.has_key?(:ec2_path)
 
