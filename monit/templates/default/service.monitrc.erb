@@ -1,0 +1,114 @@
+###############################################################################
+## Services
+###############################################################################
+##
+## Check the general system resources such as load average, cpu and memory
+## usage. Each rule specifies the tested resource, the limit and the action
+## which will be performed in the case that the test failed.
+#
+#  check system myhost.mydomain.tld
+#    if loadavg (1min) > 4 then alert
+#    if loadavg (5min) > 2 then alert
+#    if memory usage > 75% then alert
+#    if cpu usage (user) > 70% then alert
+#    if cpu usage (system) > 30% then alert
+#    if cpu usage (wait) > 20% then alert
+#
+#    
+## Check a file for existence, checksum, permissions, uid and gid. In addition
+## to the recipients in the global section, customized alert will be send to 
+## the additional recipient. The service may be grouped using the GROUP option.
+#    
+#  check file apache_bin with path /usr/local/apache/bin/httpd
+#    if failed checksum and 
+#       expect the sum 8f7f419955cefa0b33a2ba316cba3659 then unmonitor
+#    if failed permission 755 then unmonitor
+#    if failed uid root then unmonitor
+#    if failed gid root then unmonitor
+#    alert security@foo.bar on {
+#           checksum, permission, uid, gid, unmonitor
+#        } with the mail-format { subject: Alarm! }
+#    group server
+#
+#    
+## Check that a process is running, responding on the HTTP and HTTPS request, 
+## check its resource usage such as cpu and memory, number of childrens. 
+## In the case that the process is not running, monit will restart it by 
+## default. In the case that the service was restarted very often and the 
+## problem remains, it is possible to disable the monitoring using the
+## TIMEOUT statement. The service depends on another service (apache_bin) which
+## is defined in the monit control file as well.
+#    
+#  check process apache with pidfile /usr/local/apache/logs/httpd.pid
+#    start program = "/etc/init.d/httpd start"
+#    stop program  = "/etc/init.d/httpd stop"
+#    if cpu > 60% for 2 cycles then alert
+#    if cpu > 80% for 5 cycles then restart
+#    if totalmem > 200.0 MB for 5 cycles then restart
+#    if children > 250 then restart
+#    if loadavg(5min) greater than 10 for 8 cycles then stop
+#    if failed host www.tildeslash.com port 80 protocol http
+#       and request "/monit/doc/next.php"
+#       then restart
+#    if failed port 443 type tcpssl protocol http
+#       with timeout 15 seconds
+#       then restart
+#    if 3 restarts within 5 cycles then timeout
+#    depends on apache_bin
+#    group server
+#    
+#    
+## Check the device permissions, uid, gid, space and inode usage. Other
+## services such as databases may depend on this resource and automatical
+## graceful stop may be cascaded to them before the filesystem will become
+## full and the data will be lost.
+#
+#  check device datafs with path /dev/sdb1
+#    start program  = "/bin/mount /data"
+#    stop program  = "/bin/umount /data"
+#    if failed permission 660 then unmonitor
+#    if failed uid root then unmonitor
+#    if failed gid disk then unmonitor
+#    if space usage > 80% for 5 times within 15 cycles then alert
+#    if space usage > 99% then stop
+#    if inode usage > 30000 then alert
+#    if inode usage > 99% then stop
+#    group server
+#
+#
+## Check a file's timestamp: when it becomes older then 15 minutes, the 
+## file is not updated and something is wrong. In the case that the size 
+## of the file exceeded given limit, perform the script.
+#
+#  check file database with path /data/mydatabase.db
+#    if failed permission 700 then alert
+#    if failed uid data then alert
+#    if failed gid data then alert
+#    if timestamp > 15 minutes then alert
+#    if size > 100 MB then exec "/my/cleanup/script"
+#
+#
+## Check the directory permission, uid and gid.  An event is triggered
+## if the directory does not belong to the user with the  uid 0 and 
+## the gid 0.  In the addition the permissions have to match the octal 
+## description of 755 (see chmod(1)).
+#
+#  check directory bin with path /bin
+#    if failed permission 755 then unmonitor
+#    if failed uid 0 then unmonitor
+#    if failed gid 0 then unmonitor
+#
+#
+## Check the remote host network services availability and the response
+## content.  One of three pings, a successfull connection to a port and 
+## application level network check is performed.
+#
+#  check host myserver with address 192.168.1.1
+#    if failed icmp type echo count 3 with timeout 3 seconds then alert
+#    if failed port 3306 protocol mysql with timeout 15 seconds then alert
+#    if failed url
+#       http://user:password@www.foo.bar:8080/?querystring
+#       and content == 'action="j_security_check"'
+#       then alert
+#
+#

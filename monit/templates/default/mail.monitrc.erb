@@ -1,0 +1,18 @@
+## Set list of mailservers for alert delivery. Multiple servers may be 
+## specified using comma separator. By default monit uses port 25 - it is 
+## possible to override it with the PORT option.
+#
+# set mailserver mail.bar.baz,               # primary mailserver
+#                backup.bar.baz port 10025,  # backup mailserver on port 10025
+#                localhost                   # fallback relay
+#
+#
+set mailserver <%= @monit[:mailserver][:host] %> port <%= @monit[:mailserver][:port] %>
+               username "<%= @monit[:mailserver][:username] %>" password "<%= @monit[:mailserver][:password] %>"
+               <%= "using #{@monit[:mailserver][:protocol]}" if @monit[:mailserver].has_key?(:protocol) %><%= "certmd5 #{@monit[:mailserver][:certmd5]}" if @monit[:mailserver].has_key?(:certmd5) -%>
+               with timeout <%= @monit[:mailserver][:timeout] %> seconds
+               <%= "using hostname \"#{@monit[:mailserver][:hostname]}\"" if @monit[:mailserver].has_key?(:hostname) -%>
+
+<% @monit[:alerts].each do |email| %>
+set alert <%= email %>
+<% end %>

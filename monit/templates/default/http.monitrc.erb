@@ -1,0 +1,7 @@
+## Monit has an embedded webserver, which can be used to view the 
+## configuration, actual services parameters or manage the services using the 
+## web interface.
+#
+set httpd port 2812 and
+    use address localhost  # only accept connection from localhost
+    allow localhost        # allow localhost to connect to the server and

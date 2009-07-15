@@ -1,0 +1,4 @@
+include /etc/monit/conf.d/*.monitrc
+
+set daemon <%= @monit[:interval] %>
+set logfile syslog facility log_daemon
