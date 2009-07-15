@@ -75,7 +75,7 @@
 
 <% if @ejabberd[:auth_method].has_key? :external -%>
 {auth_method, external}.
-{extauth_program, "<%= @ejabberd[:auth_method][:external][:path] %>"}.
+{extauth_program, "<%= @ejabberd[:auth_method][:external] %>"}.
 <% else -%>
 {auth_method, internal}.
 <% end -%>
