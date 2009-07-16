@@ -8,6 +8,8 @@ ejabberd[:folder] = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version]}" u
 ejabberd[:hosts] = [ hostname ] unless ejabberd.has_key?(:hostname)
 ejabberd[:services] = [] unless ejabberd.has_key?(:services)
 
+ejabberd[:boot] = :enable unless ejabberd.has_key?(:boot)
+
 ejabberd[:admins] = [] unless ejabberd.has_key?(:admins)
 ejabberd[:admins].each do |admin|
   admin[:host] = ejabberd[:hosts].first unless admin.has_key?(:host)

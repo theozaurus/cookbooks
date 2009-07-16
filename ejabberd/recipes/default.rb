@@ -23,7 +23,7 @@ end
 
 service "ejabberd" do
   supports :restart => true
-  action :enable
+  action ejabberd[:boot]
 end
 
 # Prepare build task
