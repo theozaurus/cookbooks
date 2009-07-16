@@ -17,8 +17,11 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 EJABBERDCTL=/sbin/ejabberdctl
 EJABBERDUSER=root
+EJABBERDLIB=/var/lib/ejabberd
 NAME=ejabberd
+PIDFILE="/var/run/ejabberd.pid"
 
+test -f $EJABBERD || exit 0
 test -f $EJABBERDCTL || exit 0
 
 # Include ejabberd defaults if available
@@ -46,9 +49,16 @@ stop()
 	    fi
 	    sleep 1
 	done
+	rm -f $PIDFILE
     else
 	echo -n " failed"
     fi
+}
+
+start()
+{
+   su $EJABBERDUSER -c "$EJABBERDCTL start" >/dev/null
+   echo `pgrep -f $EJABBERDLIB -n` > $PIDFILE
 }
 
 case "$1" in
@@ -57,7 +67,7 @@ case "$1" in
 	if ctl status ; then
 	    echo -n " already running"
 	else
-	  ctl start
+	  start
 	fi
     ;;
     stop)
@@ -72,10 +82,10 @@ case "$1" in
 	echo -n "Restarting jabber server: $NAME"
 	if ctl status ; then
 	    stop
-	    ctl start
+	    start
 	else
 	    echo -n " is not running. Starting $NAME"
-	    ctl start
+	    start
 	fi
     ;;
     *)
