@@ -1,3 +1,6 @@
+package "flex"
+package "bison"
+
 package "monit" do
   action :purge
 end
@@ -44,7 +47,9 @@ bash "Configure monit" do
   notifies :run, resources(:bash => "Build and install monit"), :immediately
 end
 
-directory "/etc/monit/conf.d"
+directory "/etc/monit/conf.d" do
+  recursive true
+end
 
 template "/etc/monit/monitrc" do
   source "monitrc.erb"
