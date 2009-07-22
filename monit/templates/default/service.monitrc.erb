@@ -2,11 +2,11 @@ check process <%= @service[:name] %> with pidfile <%= @service[:pidfile] %>
   group <%= @service[:group] %>
   start program = "<%= @service[:start] %>"
   <% if @service.has_key?(:depends) -%>
-    as <%= @service[:as] %>
+    as uid <%= @service[:as] %>
   <% end -%>
   stop program = "<%= @service[:stop] %>"
   <% if @service.has_key?(:as) -%>
-    as <%= @service[:as] %>
+    as uid <%= @service[:as] %>
   <% end -%>
   <% if @service.has_key?(:depends) -%>
   depends <%= @service[:depends].join(", ") %>
