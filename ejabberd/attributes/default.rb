@@ -5,7 +5,7 @@ ejabberd[:link] = "http://www.process-one.net/downloads/ejabberd/#{ejabberd[:ver
 ejabberd[:destination] = "/tmp" unless ejabberd.has_key?(:destination)
 ejabberd[:folder] = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version]}" unless ejabberd.has_key?(:folder)
 
-ejabberd[:hosts] = [ hostname ] unless ejabberd.has_key?(:hostname)
+ejabberd[:hosts] = [ hostname ] unless ejabberd.has_key?(:hosts)
 ejabberd[:services] = [] unless ejabberd.has_key?(:services)
 
 ejabberd[:boot] = :enable unless ejabberd.has_key?(:boot)
