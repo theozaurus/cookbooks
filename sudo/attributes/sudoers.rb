@@ -28,3 +28,7 @@ end
 unless authorization[:sudo].has_key?(:users)
   authorization[:sudo][:users] = Array.new
 end
+
+unless authorization[:sudo].has_key?(:lines)
+  authorization[:sudo][:lines] = Array.new
+end
