@@ -16,8 +16,9 @@ bash "Download ejabberd" do
 end
 
 # Setup SysV
-remote_file "/etc/init.d/ejabberd" do
-  source "ejabberd"
+template "/etc/init.d/ejabberd" do
+  source "ejabberd.erb"
+  variables(:user => node[:ejabberd][:user])
   mode 0755
 end
 
@@ -43,8 +44,30 @@ bash "Configure ejabberd" do
   notifies :run, resources(:bash => "Build and install ejabberd"), :immediately
 end
 
+user ejabberd[:user]
+
+directory "/etc/ejabberd" do
+  owner ejabberd[:user]
+  group ejabberd[:user]
+  mode 0770
+end
+
+directory "/var/log/ejabberd" do
+  owner ejabberd[:user]
+  group ejabberd[:user]
+  mode 0770
+end
+
+bash "adjust ejabberd owners" do
+  code "chown #{ejabberd[:user]}:#{ejabberd[:user]} --recursive /var/lib/ejabberd"
+  not_if "test `find /var/lib/ejabberd -not -group #{ejabberd[:user]} -or -not -user #{ejabberd[:user]} | wc -l` = 0"
+end
+
 template "/etc/ejabberd/ejabberd.cfg" do
   source "ejabberd.cfg.erb"
+  owner ejabberd[:user]
+  group ejabberd[:user]
+  mode 0660
   variables(:ejabberd => node[:ejabberd])
   notifies :restart, resources(:service => "ejabberd")
 end
