@@ -7,7 +7,7 @@ define :ssh_authorized_keys, :user => nil, :keys => [] do
   
   bash "setup permissions on #{params[:user]}/.ssh" do
     code "chmod 0700 ~#{params[:user]}/.ssh && chown #{params[:user]}:#{params[:user]} ~#{params[:user]}/.ssh"
-    not_if "test `find ~template -maxdepth 1 -type d -perm 0700 -name .ssh -user template -group template | wc -l` = 1"
+    not_if "test `find ~#{params[:user]} -maxdepth 1 -type d -perm 0700 -name .ssh -user #{params[:user]} -group #{params[:user]} | wc -l` = 1"
   end
 
   params[:keys].each do |key|
