@@ -1,5 +1,6 @@
 package "flex"
 package "bison"
+package "curl"
 
 package "monit" do
   action :purge
@@ -78,4 +79,14 @@ template "/etc/monit/conf.d/http.monitrc" do
   notifies :restart, resources(:service => "monit"), :delayed
 end
 
+unless monit[:system][:tests].empty?
+  template "/etc/monit/conf.d/system.monitrc" do
+    source "system.monitrc.erb"
+    mode 0600
+    owner "root"
+    group "root"
+    variables :system => node[:monit][:system]
+    notifies :restart, resources(:service => "monit"), :delayed
+  end
+end
 

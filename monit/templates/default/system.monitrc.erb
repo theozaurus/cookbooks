@@ -1,0 +1,7 @@
+check system <%= @system[:name] %>
+  <% @system[:tests].each do |t| -%>
+  if <%= t[:resource] %> <%= t[:operator] %> <%= t[:value] %> for <%= t[:cycles] %> cycles then <%= t[:action] %>
+  <% end -%>
+
+  
+  
