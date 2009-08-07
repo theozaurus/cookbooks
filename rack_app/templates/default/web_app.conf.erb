@@ -31,4 +31,8 @@
   RewriteCond %{SCRIPT_FILENAME} !maintenance.html
   RewriteRule ^.*$ /system/maintenance.html [L]
 
+  <% @node[:rack_app][:extra_lines].each do |line| -%>
+  <%= line %>
+  <% end %>
+
 </VirtualHost>
