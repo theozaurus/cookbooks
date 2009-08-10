@@ -2,6 +2,8 @@ package "flex"
 package "bison"
 package "curl"
 
+package "libssl-dev"
+
 package "monit" do
   action :purge
 end
