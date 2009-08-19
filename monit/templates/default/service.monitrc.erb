@@ -1,7 +1,7 @@
 check process <%= @service[:name] %> with pidfile <%= @service[:pidfile] %>
   group <%= @service[:group] %>
   start program = "<%= @service[:start] %>"
-  <% if @service.has_key?(:depends) -%>
+  <% if @service.has_key?(:as) -%>
     as uid <%= @service[:as] %>
   <% end -%>
   stop program = "<%= @service[:stop] %>"
