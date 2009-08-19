@@ -4,6 +4,10 @@ include_recipe "apache2::mod_rails"
 include_recipe "vlad"
 include_recipe "mysql::server"
 
+# Required for projects using Nokogiri
+package "libxslt1-dev"
+package "libxml2-dev"
+
 rack_app = node[:rack_app]
 
 # Create user
