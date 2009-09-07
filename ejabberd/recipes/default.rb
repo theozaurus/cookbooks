@@ -63,6 +63,11 @@ bash "adjust ejabberd owners" do
   not_if "test `find /var/lib/ejabberd -not -group #{ejabberd[:user]} -or -not -user #{ejabberd[:user]} | wc -l` = 0"
 end
 
+remote_file "/etc/ejabberd/inetrc" do
+  source "inetrc"
+  mode 0644
+end
+
 template "/etc/ejabberd/ejabberd.cfg" do
   source "ejabberd.cfg.erb"
   owner ejabberd[:user]
