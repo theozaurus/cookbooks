@@ -8,6 +8,8 @@ include_recipe "mysql::server"
 package "libxslt1-dev"
 package "libxml2-dev"
 
+package "cron"
+
 rack_app = node[:rack_app]
 
 # Create user
