@@ -23,6 +23,7 @@ web_app rack_app[:name] do
   docroot         "#{rack_app[:path]}/current/public"
   server_name     rack_app[:domain]
   server_aliases  rack_app[:aliases]
+  redirect        rack_app[:redirect]
   rails_env       rack_app[:rails][:environment]
 end
 
