@@ -19,6 +19,7 @@
 
 include_recipe "postgresql::client" 
 
+package "language-pack-en"
 package "postgresql"
 
 service "postgresql" do
