@@ -16,6 +16,8 @@ rack_app[:database][:user] = rack_app[:name] unless rack_app[:database].has_key?
 
 rack_app[:extra_lines] = [] unless rack_app.has_key?(:extra_lines)
 
+rack_app[:redirect] = false unless rack_app.has_key?(:redirect)
+
 unless rack_app[:database].has_key?(:password)
   password = ""
   chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
