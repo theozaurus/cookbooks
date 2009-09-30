@@ -17,6 +17,18 @@ user rack_app[:user]  do
   supports :manage_home => true
 end
 
+# Sets up gems so they don't build documentation
+remote_file "/home/#{rack_app[:user]}/.gemrc" do
+  source "gemrc"
+  owner  rack_app[:user]
+  group  rack_app[:user]
+end
+
+# Sets up bash for users so gem bins are in the path
+remote_file "/etc/profile.d/gem.sh" do
+  source "gem.sh"
+end
+
 # Setup web server
 web_app rack_app[:name] do
   template        "web_app.conf.erb"
