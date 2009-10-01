@@ -1,4 +1,14 @@
 package "avahi-daemon"
+package "libnss-mdns"
+
+service "networking" do
+  action :nothing
+end
+
+remote_file "/etc/nsswitch.conf" do
+  source "nsswitch.conf"
+  notifies :restart, resources(:service => "networking")
+end
 
 service "avahi-daemon" do
   supports :restart => true, :reload => true
