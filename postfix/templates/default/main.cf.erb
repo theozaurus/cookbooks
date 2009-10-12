@@ -23,7 +23,7 @@ myorigin = <%= @node[:postfix][:myorigin] %>
 smtpd_banner = $myhostname ESMTP $mail_name 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = <%= @node[:postfix][:myhostname] %>, <%= @node[:hostname] %>, localhost.localdomain, localhost
+mydestination = <%=  @node[:postfix][:destinations].join(", ") %>, localhost.localdomain, localhost
 <% if @node[:postfix][:mail_type] == "master" -%>
 relayhost = 
 mynetworks = <%= @node[:postfix][:mail_relay_networks] %>
@@ -35,3 +35,7 @@ inet_interfaces = loopback-only
 <% end -%>
 mailbox_size_limit = 0
 recipient_delimiter = +
+<% if @node[:postfix][:luser_relay] -%>
+local_recipient_maps =
+luser_relay = <%= @node[:postfix][:luser_relay] %>
+<% end -%>
