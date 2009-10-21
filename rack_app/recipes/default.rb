@@ -29,6 +29,27 @@ remote_file "/etc/profile.d/gem.sh" do
   source "gem.sh"
 end
 
+remote_file "/home/#{rack_app[:user]}/.profile" do
+  source "profile"
+  owner  rack_app[:user]
+  group  rack_app[:user]
+end
+
+directory "/home/#{rack_app[:user]}/.profile.d" do
+  owner rack_app[:user]
+  group rack_app[:user]
+end
+
+template "/home/#{rack_app[:user]}/.profile.d/gem_bundler.sh" do
+  source "gem_bundler.sh.erb"
+  owner rack_app[:user]
+  group rack_app[:user]
+  variables(
+    :path     => "#{rack_app[:path]}/current/bin",
+    :gem_home => "#{rack_app[:path]}/current/vendor/bundler_gems"
+  )
+end
+
 # Setup web server
 web_app rack_app[:name] do
   template        "web_app.conf.erb"
