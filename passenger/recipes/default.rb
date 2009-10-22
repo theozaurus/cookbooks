@@ -32,7 +32,7 @@ if platform?("centos","redhat") and dist_only?
   return
 end
 
-%w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
+%w{ apache2-mpm-prefork apache2-prefork-dev libapr1-dev }.each do |pkg|
   package pkg do
     action :upgrade
   end

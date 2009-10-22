@@ -9,6 +9,12 @@ postfix[:mail_relay_networks] = "127.0.0.0/8" unless postfix.has_key?(:mail_rela
 
 postfix[:smtp_sasl_auth_enable] = "no" unless postfix.has_key?(:smtp_sasl_auth_enable)
 
+postfix[:destinations] = [] unless postfix.has_key?(:destinations)
+postfix[:destinations].unshift hostname
+postfix[:destinations].unshift postfix[:myhostname]
+
+postfix[:luser_relay] = nil unless postfix.has_key?(:luser_relay)
+
 if postfix[:smtp_sasl_auth_enable] == "yes"
   postfix[:smtp_sasl_password_maps] = "hash:/etc/postfix/sasl_passwd"
   postfix[:smtp_sasl_security_options] = "noanonymous"

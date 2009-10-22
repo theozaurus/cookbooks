@@ -1,0 +1,4 @@
+if [ -d <%= @path %> ]; then
+  export PATH=<%= @path %>:$PATH
+  export GEM_HOME=<%= @gem_home %>
+fi

@@ -31,7 +31,7 @@ if node[:platform] == "ubuntu" && node[:platform_version] == "8.04"
 
   key = "504EBE1344441FF0E7CC4CA30E76E800643C34E6"
   bash "Add key" do
-    code ["gpg --no-default-keyring --keyring /tmp/sml.keyring --keyserver keyserver.ubuntu.com --recv #{key}",
+    code ["gpg --no-default-keyring --keyring /tmp/sml.keyring --keyserver pgp.mit.edu --recv #{key}",
           "gpg --no-default-keyring --keyring /tmp/sml.keyring --export --armor #{key} | sudo apt-key add - ",
           "rm /tmp/sml.keyring",
           "apt-get update"].join("&&")
