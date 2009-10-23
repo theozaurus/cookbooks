@@ -1,0 +1,5 @@
+maintainer        "Jiva Technology Limited"
+maintainer_email  "theo@jivatechnology.com"
+license           "Apache 2.0"
+description       "Installs s3fs (FUSE-based file system backed by Amazon S3)"
+version           "0.1"
