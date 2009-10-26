@@ -9,9 +9,9 @@
 #
 set mailserver <%= @monit[:mailserver][:host] %> port <%= @monit[:mailserver][:port] %>
                username "<%= @monit[:mailserver][:username] %>" password "<%= @monit[:mailserver][:password] %>"
-               <%= "using #{@monit[:mailserver][:protocol]}" if @monit[:mailserver].has_key?(:protocol) %><%= "certmd5 #{@monit[:mailserver][:certmd5]}" if @monit[:mailserver].has_key?(:certmd5) -%>
+               <%= "using #{@monit[:mailserver][:protocol]}" if @monit[:mailserver][:protocol] %><%= "certmd5 #{@monit[:mailserver][:certmd5]}" if @monit[:mailserver][:certmd5] -%>
                with timeout <%= @monit[:mailserver][:timeout] %> seconds
-               <%= "using hostname \"#{@monit[:mailserver][:hostname]}\"" if @monit[:mailserver].has_key?(:hostname) -%>
+               <%= "using hostname \"#{@monit[:mailserver][:hostname]}\"" if @monit[:mailserver][:hostname] -%>
 
 <% @monit[:alerts].each do |email| %>
 set alert <%= email %>
