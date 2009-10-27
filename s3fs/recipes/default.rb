@@ -23,3 +23,26 @@ if s3fs[:password_file]
               :access_key => s3fs[:access_key]
   end
 end
+
+if @node[:os_version] == "2.6.21.7-2.fc8xen-ec2-v1.0"
+  bash "Modprobe fuse" do
+    code "modprobe fuse"
+    action :nothing
+  end
+  
+  bash "Run depmod" do
+    code "depmod"
+    action :nothing
+    notifies :run, resources(:bash => "Modprobe fuse"), :immediately
+  end
+  
+  directory "/lib/modules/#{@node[:os_version]}/kernel/fs/fuse" do
+    recursive true
+  end
+  
+  remote_file "/lib/modules/#{@node[:os_version]}/kernel/fs/fuse/fuse.ko" do
+    source "fuse.ko"
+    mode 0644
+    notifies :run, resources(:bash => "Run depmod"), :immediately
+  end
+end
