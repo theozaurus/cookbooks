@@ -1,3 +1,9 @@
+default[:backup_manager][:version]        = "0.7.8"
+default[:backup_manager][:link]           = "http://www.backup-manager.org/download/backup-manager-#{backup_manager[:version]}.tar.gz"
+default[:backup_manager][:destination]    = "/usr/local/src"
+default[:backup_manager][:folder]         = "#{backup_manager[:destination]}/backup-manager-#{backup_manager[:version]}"
+default[:backup_manager][:options]        = []
+
 default[:backup_manager][:cron][:user]    = "root"
 default[:backup_manager][:cron][:minute]  = "0"
 default[:backup_manager][:cron][:hour]    = "3"
@@ -10,7 +16,7 @@ if ec2
 else
   default[:backup_manager][:repository_root]    = "/var/archives"
 end
-
+default[:backup_manager][:temp_dir]           = "/tmp"
 default[:backup_manager][:repository_secure]  = true
 
 default[:backup_manager][:repository_user]    = backup_manager[:cron][:user]
@@ -23,6 +29,7 @@ default[:backup_manager][:repository_recursivepurge]  = false
 default[:backup_manager][:archive_purgedups]          = true
 default[:backup_manager][:archive_prefix]             = hostname
 default[:backup_manager][:archive_strictpurge]        = true
+default[:backup_manager][:archive_nice_level]         = "10"
 default[:backup_manager][:archive_method]             = ["tarball"]
 default[:backup_manager][:encryption_method]          = false
 default[:backup_manager][:encryption_recipient]       = nil

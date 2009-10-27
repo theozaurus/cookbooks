@@ -1,6 +1,30 @@
 b = node[:backup_manager]
 
-package "backup-manager"
+package "backup-manager" do
+  action :remove
+end
+
+if b[:tarball][:filetype] == "dar"
+  package "dar"
+end
+
+bash "Remove cron daily task" do
+  code "rm /etc/cron.daily/backup-manager"
+  only_if "test -f /etc/cron.daily/backup-manager"
+end
+
+bash "Build and install backup-manager" do
+  cwd b[:folder]
+  code "make clean && make && make install"
+  action :nothing
+end
+
+bash "Download backup-manager" do
+  cwd b[:destination]
+  code "curl #{b[:link]} | tar xz"
+  not_if "test -d #{b[:folder]}"
+  notifies :run, resources(:bash => "Build and install backup-manager"), :immediately
+end
 
 template "/etc/backup-manager.conf" do
   source "backup-manager.conf.erb"

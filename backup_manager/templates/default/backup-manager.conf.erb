@@ -15,6 +15,9 @@
 # Where to store the archives
 export BM_REPOSITORY_ROOT="<%= @b[:repository_root] %>"
 
+# Where to place temporary files
+export BM_TEMP_DIR="<%= @b[:temp_dir] %>"
+
 # For security reasons, the archive repository and the generated 
 # archives will be readable/writable by a given user/group.
 # This is recommended to set this to true.
@@ -53,6 +56,11 @@ export BM_ARCHIVE_PREFIX="<%= @b[:archive_prefix] %>"
 
 # Should we purge only archives built with $BM_ARCHIVE_PREFIX
 export BM_ARCHIVE_STRICTPURGE="<%= @b[:archive_strictpurge] %>"
+
+# You may want to nice the commands run for archive-creation
+# (Recommanded for desktop users.)
+# Choose a nice level from -20 (most favorable scheduling) to 19 (least favorable).
+export BM_ARCHIVE_NICE_LEVEL="<%= @b[:archive_nice_level] %>"
 
 # The backup method to use.
 # Available methods are:
