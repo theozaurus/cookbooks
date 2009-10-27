@@ -35,12 +35,19 @@ default[:backup_manager][:encryption_method]          = false
 default[:backup_manager][:encryption_recipient]       = nil
 
 default[:backup_manager][:tarball][:nameformat]           = "long"
-default[:backup_manager][:tarball][:filetype]             = "tar.gz"
+if backup_manager[:upload][:method].include?("s3")
+  # The CPAN module Net::Amazon::S3 has a bug which means you need to allocate the same amount of memory as the archive
+  # Thus dar format and a slicesize of 100M is used to make sure the server does not run out of memory
+  default[:backup_manager][:tarball][:filetype]           = "dar"
+  default[:backup_manager][:tarball][:slicesize]          = "100M"
+else
+  default[:backup_manager][:tarball][:filetype]           = "tar.gz"
+  default[:backup_manager][:tarball][:slicesize]          = "1000M"
+end
 default[:backup_manager][:tarball][:over_ssh]             = false
 default[:backup_manager][:tarball][:dumpsymlinks]         = false
 default[:backup_manager][:tarball][:directories]          = ["/etc", "/home"]
 default[:backup_manager][:tarball][:blacklist]            = [backup_manager[:repository_root]]
-default[:backup_manager][:tarball][:slicesize]            = "1000M"
 default[:backup_manager][:tarball][:extra_options]        = nil
 default[:backup_manager][:tarball][:inc_masterdatetype]   = "weekly"
 default[:backup_manager][:tarball][:inc_masterdatevalue]  = 1
