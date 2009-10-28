@@ -12,7 +12,7 @@ default[:backup_manager][:cron][:day]     = "*"
 default[:backup_manager][:cron][:month]   = "*"
 default[:backup_manager][:cron][:weekday] = "*"
 
-if ec2
+if defined?( :ec2 )
   default[:backup_manager][:repository_root]    = "/mnt/archives"  
 else
   default[:backup_manager][:repository_root]    = "/var/archives"
@@ -34,35 +34,6 @@ default[:backup_manager][:archive_nice_level]         = "10"
 default[:backup_manager][:archive_method]             = ["tarball"]
 default[:backup_manager][:encryption_method]          = false
 default[:backup_manager][:encryption_recipient]       = nil
-
-default[:backup_manager][:tarball][:nameformat]           = "long"
-if backup_manager[:upload][:method].include?("s3")
-  # The CPAN module Net::Amazon::S3 has a bug which means you need to allocate the same amount of memory as the archive
-  # Thus dar format and a slicesize of 100M is used to make sure the server does not run out of memory
-  default[:backup_manager][:tarball][:filetype]           = "dar"
-  default[:backup_manager][:tarball][:slicesize]          = "100M"
-else
-  default[:backup_manager][:tarball][:filetype]           = "tar.gz"
-  default[:backup_manager][:tarball][:slicesize]          = "1000M"
-end
-default[:backup_manager][:tarball][:over_ssh]             = false
-default[:backup_manager][:tarball][:dumpsymlinks]         = false
-default[:backup_manager][:tarball][:directories]          = ["/etc", "/home"]
-default[:backup_manager][:tarball][:blacklist]            = [backup_manager[:repository_root]]
-default[:backup_manager][:tarball][:extra_options]        = nil
-default[:backup_manager][:tarball][:inc_masterdatetype]   = "weekly"
-default[:backup_manager][:tarball][:inc_masterdatevalue]  = 1
-
-default[:backup_manager][:mysql][:databases]  = ["__ALL__"]
-default[:backup_manager][:mysql][:safedumps]  = true
-default[:backup_manager][:mysql][:adminlogin] = "root"
-default[:backup_manager][:mysql][:adminpass]  = mysql[:server_root_password]
-default[:backup_manager][:mysql][:host]       = mysql[:bind_address] || "localhost"
-default[:backup_manager][:mysql][:port]       = 3306
-default[:backup_manager][:mysql][:filetype]   = "bzip2"
-
-default[:backup_manager][:svn][:repositories] = []
-default[:backup_manager][:svn][:compresswith] = "bzip2"
 
 default[:backup_manager][:upload][:method]      = []
 default[:backup_manager][:upload][:hosts]       = []
@@ -95,6 +66,35 @@ default[:backup_manager][:upload][:rsync][:directories]   = []
 default[:backup_manager][:upload][:rsync][:destination]   = nil
 default[:backup_manager][:upload][:rsync][:hosts]         = []
 default[:backup_manager][:upload][:rsync][:dumpsymlinks]  = false
+
+default[:backup_manager][:tarball][:nameformat]           = "long"
+if backup_manager[:upload][:method].include?("s3")
+  # The CPAN module Net::Amazon::S3 has a bug which means you need to allocate the same amount of memory as the archive
+  # Thus dar format and a slicesize of 100M is used to make sure the server does not run out of memory
+  default[:backup_manager][:tarball][:filetype]           = "dar"
+  default[:backup_manager][:tarball][:slicesize]          = "100M"
+else
+  default[:backup_manager][:tarball][:filetype]           = "tar.gz"
+  default[:backup_manager][:tarball][:slicesize]          = "1000M"
+end
+default[:backup_manager][:tarball][:over_ssh]             = false
+default[:backup_manager][:tarball][:dumpsymlinks]         = false
+default[:backup_manager][:tarball][:directories]          = ["/etc", "/home"]
+default[:backup_manager][:tarball][:blacklist]            = [backup_manager[:repository_root]]
+default[:backup_manager][:tarball][:extra_options]        = nil
+default[:backup_manager][:tarball][:inc_masterdatetype]   = "weekly"
+default[:backup_manager][:tarball][:inc_masterdatevalue]  = 1
+
+default[:backup_manager][:mysql][:databases]  = ["__ALL__"]
+default[:backup_manager][:mysql][:safedumps]  = true
+default[:backup_manager][:mysql][:adminlogin] = "root"
+default[:backup_manager][:mysql][:adminpass]  = mysql[:server_root_password]
+default[:backup_manager][:mysql][:host]       = mysql[:bind_address] || "localhost"
+default[:backup_manager][:mysql][:port]       = 3306
+default[:backup_manager][:mysql][:filetype]   = "bzip2"
+
+default[:backup_manager][:svn][:repositories] = []
+default[:backup_manager][:svn][:compresswith] = "bzip2"
 
 default[:backup_manager][:burning][:method]     = nil
 default[:backup_manager][:burning][:chkmd5]     = false
