@@ -23,6 +23,7 @@
 # limitations under the License.
 
 include_recipe "passenger"
+include_recipe "apache2"
 
 if platform?("centos","redhat") and dist_only?
   package "mod_passenger" do
@@ -49,6 +50,7 @@ template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
   owner "root"
   group "root"
   mode 0755
+  notifies :restart, resources(:service => "apache2")
 end
 
 apache_module "passenger"
