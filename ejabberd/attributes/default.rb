@@ -1,22 +1,19 @@
-ejabberd Mash.new unless attribute?("ejabberd")
+default[:ejabberd][:version]      = "2.0.5"
+default[:ejabberd][:link]         = "http://www.process-one.net/downloads/ejabberd/#{ejabberd[:version]}/ejabberd-#{ejabberd[:version]}.tar.gz"
+default[:ejabberd][:destination]  = "/usr/local/src"
+default[:ejabberd][:folder]       = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version]}"
 
-ejabberd[:version] = "2.0.5" unless ejabberd.has_key?(:version)
-ejabberd[:link] = "http://www.process-one.net/downloads/ejabberd/#{ejabberd[:version]}/ejabberd-#{ejabberd[:version]}.tar.gz" unless ejabberd.has_key?(:link)
-ejabberd[:destination] = "/usr/local/src" unless ejabberd.has_key?(:destination)
-ejabberd[:folder] = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version]}" unless ejabberd.has_key?(:folder)
+default[:ejabberd][:hosts]        = [ fqdn ]
+default[:ejabberd][:services]     = []
 
-ejabberd[:hosts] = [ fqdn ] unless ejabberd.has_key?(:hosts)
-ejabberd[:services] = [] unless ejabberd.has_key?(:services)
+default[:ejabberd][:user]         = "ejabberd"
 
-ejabberd[:user] = "ejabberd" unless ejabberd.has_key?(:user)
+default[:ejabberd][:boot]         = :enable
 
-ejabberd[:boot] = :enable unless ejabberd.has_key?(:boot)
-
-ejabberd[:admins] = [] unless ejabberd.has_key?(:admins)
+default[:ejabberd][:admins]       = []
 ejabberd[:admins].each do |admin|
   admin[:host] = ejabberd[:hosts].first unless admin.has_key?(:host)
 end
 
-ejabberd[:modules] = recipes.recipes.select{|r| r =~ /\Aejabberd::/}.map{|r| r.gsub(/\Aejabberd::/,"")} unless ejabberd.has_key?(:modules)
-
-ejabberd[:auth_method] = {} unless ejabberd.has_key?(:auth_method)
+default[:ejabberd][:modules]      = recipes.recipes.select{|r| r =~ /\Aejabberd::/}.map{|r| r.gsub(/\Aejabberd::/,"")}
+default[:ejabberd][:auth_method]  = {}

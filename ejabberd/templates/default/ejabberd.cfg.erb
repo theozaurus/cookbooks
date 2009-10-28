@@ -73,7 +73,7 @@
 %%%   ==============
 %%%   AUTHENTICATION
 
-<% if @ejabberd[:auth_method].has_key? :external -%>
+<% if @ejabberd[:auth_method][:external] -%>
 {auth_method, external}.
 {extauth_program, "<%= @ejabberd[:auth_method][:external] %>"}.
 <% else -%>
