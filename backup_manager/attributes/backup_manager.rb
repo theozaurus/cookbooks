@@ -4,6 +4,7 @@ default[:backup_manager][:destination]    = "/usr/local/src"
 default[:backup_manager][:folder]         = "#{backup_manager[:destination]}/backup-manager-#{backup_manager[:version]}"
 default[:backup_manager][:options]        = []
 
+default[:backup_manager][:cron][:mailto]  = "root"
 default[:backup_manager][:cron][:user]    = "root"
 default[:backup_manager][:cron][:minute]  = "0"
 default[:backup_manager][:cron][:hour]    = "3"

@@ -44,6 +44,7 @@ if b[:upload][:method].include?("s3")
 end
 
 cron "backup-manager" do
+  mailto  b[:cron][:mailto]
   user    b[:cron][:user]
   minute  b[:cron][:minute]
   hour    b[:cron][:hour]
