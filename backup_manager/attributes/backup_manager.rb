@@ -88,8 +88,13 @@ default[:backup_manager][:tarball][:inc_masterdatevalue]  = 1
 default[:backup_manager][:mysql][:databases]  = ["__ALL__"]
 default[:backup_manager][:mysql][:safedumps]  = true
 default[:backup_manager][:mysql][:adminlogin] = "root"
-default[:backup_manager][:mysql][:adminpass]  = mysql[:server_root_password]
-default[:backup_manager][:mysql][:host]       = mysql[:bind_address] || "localhost"
+if attribute? :mysql
+  default[:backup_manager][:mysql][:adminpass]  = mysql[:server_root_password]
+  default[:backup_manager][:mysql][:host]       = mysql[:bind_address] || "localhost"
+else
+  default[:backup_manager][:mysql][:adminpass]  = ""
+  default[:backup_manager][:mysql][:host]       = "localhost"
+end
 default[:backup_manager][:mysql][:port]       = 3306
 default[:backup_manager][:mysql][:filetype]   = "bzip2"
 
