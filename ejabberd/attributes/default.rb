@@ -1,7 +1,7 @@
 default[:ejabberd][:version]      = "2.0.5"
-default[:ejabberd][:link]         = "http://www.process-one.net/downloads/ejabberd/#{ejabberd[:version]}/ejabberd-#{ejabberd[:version]}.tar.gz"
+default[:ejabberd][:link]         = "http://www.process-one.net/downloads/ejabberd/#{ejabberd[:version]}/ejabberd-#{ejabberd[:version].gsub("-","_")}.tar.gz"
 default[:ejabberd][:destination]  = "/usr/local/src"
-default[:ejabberd][:folder]       = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version]}"
+default[:ejabberd][:folder]       = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version].gsub("-","_")}"
 
 default[:ejabberd][:hosts]        = [ fqdn ]
 default[:ejabberd][:services]     = []
