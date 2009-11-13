@@ -76,6 +76,24 @@
 <% if @ejabberd[:auth_method][:external] -%>
 {auth_method, external}.
 {extauth_program, "<%= @ejabberd[:auth_method][:external] %>"}.
+<% elsif @ejabberd[:auth_method][:ldap] -%>
+{auth_method, ldap}. 
+{ldap_servers,         <%= @ejabberd[:auth_method][:ldap][:servers].inspect %> }.
+{ldap_port,            <%= @ejabberd[:auth_method][:ldap][:port] %> }.
+{ldap_base,            "<%= @ejabberd[:auth_method][:ldap][:base] %>" }.
+{ldap_rootdn,          "<%= @ejabberd[:auth_method][:ldap][:rootdn] %>" }.
+{ldap_password,        "<%= @ejabberd[:auth_method][:ldap][:password] %>" }.
+{ldap_uids,            [<%= @ejabberd[:auth_method][:ldap][:uids] %>] }.
+<% if @ejabberd[:auth_method][:ldap][:filter] -%>
+{ldap_filter,          "<%= @ejabberd[:auth_method][:ldap][:filter] %>" }.
+<% else -%>
+{ldap_filter,          undefined }.
+<% end -%>
+<% if @ejabberd[:auth_method][:ldap][:local_filter] -%>
+{ldap_local_filter,    "<%= @ejabberd[:auth_method][:ldap][:local_filter] %>" }.
+<% else -%>
+{ldap_local_filter,    undefined }.
+<% end -%>
 <% else -%>
 {auth_method, internal}.
 <% end -%>
@@ -175,7 +193,11 @@
   {mod_privacy,  []},
   {mod_private,  []},
   {mod_roster,   []},
+<% if @ejabberd[:auth_method][:ldap] -%>
+  {mod_vcard_ldap, []},
+<% else %>
   {mod_vcard,    []},
+<% end -%>
 <% if @ejabberd[:modules].include? "http_bind" -%>
   {mod_http_bind,[]},
 <% end -%>

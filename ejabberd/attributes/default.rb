@@ -17,3 +17,20 @@ end
 
 default[:ejabberd][:modules]      = recipes.recipes.select{|r| r =~ /\Aejabberd::/}.map{|r| r.gsub(/\Aejabberd::/,"")}
 default[:ejabberd][:auth_method]  = {}
+
+if ejabberd[:auth_method].has_key?(:ldap)
+  default[:ejabberd][:auth_method][:ldap][:servers]       = [ fqdn ]
+  default[:ejabberd][:auth_method][:ldap][:port]          = 389
+  if attribute? :openldap
+    default[:ejabberd][:auth_method][:ldap][:base]        = "ou=users,#{openldap[:basedn]}"
+    default[:ejabberd][:auth_method][:ldap][:password]    = openldap[:rootpw]
+    default[:ejabberd][:auth_method][:ldap][:rootdn]      = "cn=admin,#{openldap[:basedn]}"
+  else
+    default[:ejabberd][:auth_method][:ldap][:base]        = "dc=example,dc=org"
+    default[:ejabberd][:auth_method][:ldap][:password]    = ""
+    default[:ejabberd][:auth_method][:ldap][:rootdn]      = ""
+  end
+  default[:ejabberd][:auth_method][:ldap][:uids]          = '{"uid", "%u"}'
+  default[:ejabberd][:auth_method][:ldap][:filter]        = nil
+  default[:ejabberd][:auth_method][:ldap][:local_filter]  = nil
+end
