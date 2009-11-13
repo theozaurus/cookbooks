@@ -26,6 +26,10 @@ end
 default[:openldap][:rootdn] = "cn=admin,#{openldap[:basedn]}"
 openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
 
+# see man 5 slapd.conf
+# could be: trace packets args conns BER filter config ACL stats stats2 shell parse sync none
+default[:openldap][:loglevel] = "none"
+
 # File and directory locations for openldap.
 case platform
 when "redhat","centos"
