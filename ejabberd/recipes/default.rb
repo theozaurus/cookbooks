@@ -91,3 +91,10 @@ file "/etc/ejabberd/ejabberdctl.cfg" do
   group ejabberd[:user]
   mode 0640
 end
+
+if ejabberd[:auth_method][:ldap]
+  ldap_add ejabberd[:auth_method][:ldap][:base] do
+    attributes :objectclass => ["organizationalUnit"],
+               :ou          => /\Aou=([^,]+)/.match(ejabberd[:auth_method][:ldap][:base]).to_a[1]
+  end
+end
