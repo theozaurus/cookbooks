@@ -18,9 +18,9 @@
 
 openldap Mash.new unless attribute?("openldap")
 
-if domain.length > 0
-  openldap[:basedn] = "dc=#{domain.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
-  openldap[:server] = "ldap.#{domain}" unless openldap.has_key?(:server)
+if fqdn.length > 0
+  openldap[:basedn] = "dc=#{fqdn.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
+  openldap[:server] = "ldap.#{fqdn}" unless openldap.has_key?(:server)
 end
 
 openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
