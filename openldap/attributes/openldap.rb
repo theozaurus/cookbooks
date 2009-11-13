@@ -23,6 +23,7 @@ if fqdn.length > 0
   openldap[:server] = "ldap.#{fqdn}" unless openldap.has_key?(:server)
 end
 
+default[:openldap][:rootdn] = "cn=admin,#{openldap[:basedn]}"
 openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
 
 # File and directory locations for openldap.
