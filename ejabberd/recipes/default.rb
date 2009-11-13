@@ -44,7 +44,12 @@ bash "Configure ejabberd" do
   notifies :run, resources(:bash => "Build and install ejabberd"), :immediately
 end
 
-user ejabberd[:user]
+user ejabberd[:user] do
+  if ejabberd[:user] == "ejabberd"
+    home  "/var/lib/ejabberd"
+    shell "/bin/sh"
+  end
+end
 
 directory "/etc/ejabberd" do
   owner ejabberd[:user]
@@ -75,4 +80,14 @@ template "/etc/ejabberd/ejabberd.cfg" do
   mode 0660
   variables(:ejabberd => node[:ejabberd])
   notifies :restart, resources(:service => "ejabberd")
+end
+
+file "/sbin/ejabberdctl" do
+  mode 0777
+end
+
+file "/etc/ejabberd/ejabberdctl.cfg" do
+  owner ejabberd[:user]
+  group ejabberd[:user]
+  mode 0640
 end
