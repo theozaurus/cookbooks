@@ -180,10 +180,12 @@
   {mod_announce, [{access, announce}]}, % requires mod_adhoc
   {mod_configure,[]}, % requires mod_adhoc
   {mod_caps,     []},
-  {mod_pubsub,   [ % requires mod_caps
-		  {access_createnode, pubsub_createnode},
-		  {plugins, ["default", "pep"]}
-		 ]},
+  {mod_pubsub,   [
+                  {access_createnode, pubsub_createnode},
+                  {ignore_pep_from_offline, true},
+                  {last_item_cache, false},
+                  {plugins, <%= @ejabberd[:pubsub].inspect %>}  % pep requires mod_caps
+                 ]},
   {mod_disco,    []},
   {mod_service_log,[]},
   {mod_stats,    []},
