@@ -1,6 +1,6 @@
 default[:monit][:version]      = "5.0.3"
 default[:monit][:link]         = "http://mmonit.com/monit/dist/monit-#{monit[:version]}.tar.gz"
-default[:monit][:destination]  = "/tmp"
+default[:monit][:destination]  = "/usr/local/src"
 default[:monit][:folder]       = "#{monit[:destination]}/monit-#{monit[:version]}"
 default[:monit][:options]      = ["--sysconfdir=/etc/monit"]
 
