@@ -30,7 +30,7 @@ if ejabberd[:auth_method].has_key?(:ldap)
     default[:ejabberd][:auth_method][:ldap][:password]    = ""
     default[:ejabberd][:auth_method][:ldap][:rootdn]      = ""
   end
-  default[:ejabberd][:auth_method][:ldap][:uids]          = '{"uid", "%u"}'
+  default[:ejabberd][:auth_method][:ldap][:uids]          = '{"cn", "%u"}'
   default[:ejabberd][:auth_method][:ldap][:filter]        = nil
   default[:ejabberd][:auth_method][:ldap][:local_filter]  = nil
 end
