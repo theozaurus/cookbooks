@@ -2,7 +2,7 @@ define :ldap_add, :attributes => {} do
 
   gem_package "ruby-net-ldap"
 
-  ruby_block "Create LDAP entry #{params[:name]}" do
+  ruby_block "Create LDAP entry #{params[:name]} at #{node[:openldap][:server]}" do
     block do
       Gem.clear_paths
       require 'net/ldap'
