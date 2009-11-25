@@ -3,6 +3,12 @@ default[:ejabberd][:link]         = "http://www.process-one.net/downloads/ejabbe
 default[:ejabberd][:destination]  = "/usr/local/src"
 default[:ejabberd][:folder]       = "#{ejabberd[:destination]}/ejabberd-#{ejabberd[:version].gsub("-","_")}"
 
+if ejabberd[:version] =~ /2\.1/
+  default[:ejabberd][:ebin]       = "/lib/ejabberd/ebin"
+else
+  default[:ejabberd][:ebin]       = "/var/lib/ejabberd/ebin"
+end
+
 default[:ejabberd][:hosts]        = [ fqdn ]
 default[:ejabberd][:services]     = []
 
