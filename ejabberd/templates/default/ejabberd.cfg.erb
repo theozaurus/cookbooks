@@ -47,6 +47,11 @@
        <% end %>
 			 http_bind,
 			 http_poll,
+<% if @ejabberd[:modules].include? "mod_rest" -%>
+       {request_handlers, [
+         {["rest"], mod_rest}
+       ]},
+<% end %>
 			 web_admin
 			]}
 <% end -%>
@@ -208,6 +213,9 @@
 <% end -%>
 <% if @ejabberd[:modules].include? "mod_rabbitmq" -%>
   {mod_rabbitmq, []},
+<% end -%>
+<% if @ejabberd[:modules].include? "mod_rest" -%>
+  {mod_rest, [ {allowed_ips, [ {127,0,0,1} ]} ]},
 <% end -%>
 <% if @ejabberd[:modules].include? "mod_archive_odbc" -%>
   {mod_archive_odbc, [{database_type, "mysql"},
