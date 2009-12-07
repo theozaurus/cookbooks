@@ -11,6 +11,3 @@ unless ejabberd[:odbc][:mysql].has_key?(:password)
   20.times { |i| password << chars[rand(chars.size-1)] }
   ejabberd[:odbc][:mysql][:password] = password
 end
-
-ejabberd[:options] = [] unless ejabberd.has_key?(:options)
-ejabberd[:options] << "--enable-odbc" if recipe?("ejabberd::odbc")

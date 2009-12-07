@@ -40,3 +40,7 @@ if ejabberd[:auth_method].has_key?(:ldap)
   default[:ejabberd][:auth_method][:ldap][:filter]        = nil
   default[:ejabberd][:auth_method][:ldap][:local_filter]  = nil
 end
+
+params = []
+params << "--enable-odbc" unless (ejabberd[:modules] & ["odbc", "mod_archive_odbc"]).empty?
+default[:ejabberd][:options] = params
