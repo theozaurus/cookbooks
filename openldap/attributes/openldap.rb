@@ -20,7 +20,7 @@ openldap Mash.new unless attribute?("openldap")
 
 if fqdn.length > 0
   openldap[:basedn] = "dc=#{fqdn.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
-  openldap[:server] = "ldap.#{fqdn}" unless openldap.has_key?(:server)
+  openldap[:server] = fqdn unless openldap.has_key?(:server)
 end
 
 default[:openldap][:rootdn] = "cn=admin,#{openldap[:basedn]}"
