@@ -25,6 +25,11 @@ users.each do |u,keys|
   when "root" : "/root"
   else "/home/#{u}"
   end
+    
+  ssh_known_hosts "Adding known hosts for #{u}" do
+    user  u
+    hosts keys.map{|k| k[:hosts] }.flatten.uniq
+  end
   
   directory "#{user_home}/.ssh" do
     owner u
