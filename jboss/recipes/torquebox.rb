@@ -33,10 +33,20 @@ template "#{jboss[:home]}/server/#{jboss[:conf]}/deploy/#{torquebox[:name]}-rack
             :context   => torquebox[:context]
 end
 
+torquebox[:symlinks].each do |d|
+  directory "/srv/jboss/#{torquebox[:name]}/shared/#{d}" do
+    owner "jboss"
+    group "jboss"
+    recursive true
+  end
+end
+
 deploy_revision "/srv/jboss/#{torquebox[:name]}" do
-  repo              torquebox[:repo]
-  revision          torquebox[:revision]
-  user              "jboss"
-  enable_submodules true
-  restart_command   "touch #{jboss[:home]}/server/#{jboss[:conf]}/deploy/#{torquebox[:name]}-rack.yml"
+  repo                 torquebox[:repo]
+  revision             torquebox[:revision]
+  user                 "jboss"
+  enable_submodules    true
+  purge_before_symlink torquebox[:symlinks]
+  symlinks             torquebox[:symlinks].inject({}){|h,k| h[k] = k; h}
+  restart_command      "rake deploy && touch #{jboss[:home]}/server/#{jboss[:conf]}/deploy/#{torquebox[:name]}-rack.yml"
 end

@@ -21,3 +21,5 @@ default[:jboss][:torquebox][:revision]    = "HEAD"
 
 default[:jboss][:torquebox][:host]        = fqdn
 default[:jboss][:torquebox][:context]     = "/"
+default[:jboss][:torquebox][:symlinks]    = ["log"]
+
