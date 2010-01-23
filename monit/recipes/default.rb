@@ -1,7 +1,7 @@
 package "flex"
 package "bison"
 package "curl"
-
+package "libcurl4-openssl-dev"
 package "libssl-dev"
 
 package "monit" do
