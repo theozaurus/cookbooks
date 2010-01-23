@@ -18,12 +18,17 @@
 
 openldap Mash.new unless attribute?("openldap")
 
-if domain.length > 0
-  openldap[:basedn] = "dc=#{domain.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
-  openldap[:server] = "ldap.#{domain}" unless openldap.has_key?(:server)
+if fqdn.length > 0
+  openldap[:basedn] = "dc=#{fqdn.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
+  openldap[:server] = fqdn unless openldap.has_key?(:server)
 end
 
+default[:openldap][:rootdn] = "cn=admin,#{openldap[:basedn]}"
 openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
+
+# see man 5 slapd.conf
+# could be: trace packets args conns BER filter config ACL stats stats2 shell parse sync none
+default[:openldap][:loglevel] = "none"
 
 # File and directory locations for openldap.
 case platform

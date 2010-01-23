@@ -16,7 +16,7 @@ end
 attribute "passenger/version",
   :display_name => "Passenger Version",
   :description => "Version of Passenger to install",
-  :default => "2.2.4"
+  :default => "2.2.5"
 
 attribute "passenger/root_path",
   :display_name => "Passenger Root Path",

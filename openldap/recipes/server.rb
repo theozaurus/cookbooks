@@ -109,3 +109,13 @@ else
   end
 end
 
+ldap_add node[:openldap][:basedn] do
+  attributes :objectclass => ["dcObject", "organization"],
+             :o           => "Organization",
+             :dc          => /\Adc=([^,]+)/.match(node[:openldap][:basedn]).to_a[1]
+end
+
+ldap_add node[:openldap][:rootdn] do
+  attributes :objectclass => ["organizationalRole"],
+             :cn          => /\Acn=([^,]+)/.match(node[:openldap][:rootdn]).to_a[1]
+end

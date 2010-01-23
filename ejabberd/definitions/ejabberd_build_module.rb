@@ -11,8 +11,8 @@ define :ejabberd_build_module, :module_name => nil do
   end
 
   bash "install #{params[:name]}" do
-    code "cp /tmp/ejabberd-modules/#{params[:name]}/trunk/ebin/*.beam /var/lib/ejabberd/ebin/"
-    creates "/var/lib/ejabberd/ebin/#{module_name}.beam"
+    code "cp /tmp/ejabberd-modules/#{params[:name]}/trunk/ebin/*.beam #{node[:ejabberd][:ebin]}"
+    creates "#{node[:ejabberd][:ebin]}/#{module_name}.beam"
     notifies :run, resources(:bash => "adjust ejabberd owners")
     notifies :restart, resources(:service => "ejabberd")
   end

@@ -1,18 +1,18 @@
-monit Mash.new unless attribute?("monit")
+default[:monit][:version]      = "5.0.3"
+default[:monit][:link]         = "http://mmonit.com/monit/dist/monit-#{monit[:version]}.tar.gz"
+default[:monit][:destination]  = "/usr/local/src"
+default[:monit][:folder]       = "#{monit[:destination]}/monit-#{monit[:version]}"
+default[:monit][:options]      = ["--sysconfdir=/etc/monit"]
 
-monit[:version] = "5.0.3" unless monit.has_key?(:version)
-monit[:link] = "http://mmonit.com/monit/dist/monit-#{monit[:version]}.tar.gz" unless monit.has_key?(:link)
-monit[:destination] = "/tmp" unless monit.has_key?(:destination)
-monit[:folder] = "#{monit[:destination]}/monit-#{monit[:version]}" unless monit.has_key?(:folder)
-monit[:options] = ["--sysconfdir=/etc/monit"] unless monit.has_key?(:options)
+default[:monit][:interval]     = 120
 
-monit[:interval] = 120 unless monit.has_key?(:interval)
+default[:monit][:alerts]       = []
 
-monit[:alerts] = [] unless monit.has_key?(:alerts)
-
-monit[:mailserver] = {} unless monit.has_key?(:mailserver)
-monit[:mailserver][:host] = "localhost" unless monit[:mailserver].has_key?(:host)
-monit[:mailserver][:port] = 25 unless monit[:mailserver].has_key?(:port)
-monit[:mailserver][:username] = "admin" unless monit[:mailserver].has_key?(:username)
-monit[:mailserver][:password] = "password" unless monit[:mailserver].has_key?(:password)
-monit[:mailserver][:timeout] = 15 unless monit[:mailserver].has_key?(:timeout)
+default[:monit][:mailserver][:host]      = "localhost"
+default[:monit][:mailserver][:port]      = 25
+default[:monit][:mailserver][:username]  = "admin"
+default[:monit][:mailserver][:password]  = "password"
+default[:monit][:mailserver][:timeout]   = 15
+default[:monit][:mailserver][:protocol]  = nil
+default[:monit][:mailserver][:hostname]  = nil
+default[:monit][:mailserver][:certmd5]   = nil

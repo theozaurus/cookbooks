@@ -47,6 +47,11 @@
        <% end %>
 			 http_bind,
 			 http_poll,
+<% if @ejabberd[:modules].include? "mod_rest" -%>
+       {request_handlers, [
+         {["rest"], mod_rest}
+       ]},
+<% end %>
 			 web_admin
 			]}
 <% end -%>
@@ -73,9 +78,27 @@
 %%%   ==============
 %%%   AUTHENTICATION
 
-<% if @ejabberd[:auth_method].has_key? :external -%>
+<% if @ejabberd[:auth_method][:external] -%>
 {auth_method, external}.
 {extauth_program, "<%= @ejabberd[:auth_method][:external] %>"}.
+<% elsif @ejabberd[:auth_method][:ldap] -%>
+{auth_method, ldap}. 
+{ldap_servers,         <%= @ejabberd[:auth_method][:ldap][:servers].inspect %> }.
+{ldap_port,            <%= @ejabberd[:auth_method][:ldap][:port] %> }.
+{ldap_base,            "<%= @ejabberd[:auth_method][:ldap][:base] %>" }.
+{ldap_rootdn,          "<%= @ejabberd[:auth_method][:ldap][:rootdn] %>" }.
+{ldap_password,        "<%= @ejabberd[:auth_method][:ldap][:password] %>" }.
+{ldap_uids,            [<%= @ejabberd[:auth_method][:ldap][:uids] %>] }.
+<% if @ejabberd[:auth_method][:ldap][:filter] -%>
+{ldap_filter,          "<%= @ejabberd[:auth_method][:ldap][:filter] %>" }.
+<% else -%>
+{ldap_filter,          undefined }.
+<% end -%>
+<% if @ejabberd[:auth_method][:ldap][:local_filter] -%>
+{ldap_local_filter,    "<%= @ejabberd[:auth_method][:ldap][:local_filter] %>" }.
+<% else -%>
+{ldap_local_filter,    undefined }.
+<% end -%>
 <% else -%>
 {auth_method, internal}.
 <% end -%>
@@ -162,10 +185,13 @@
   {mod_announce, [{access, announce}]}, % requires mod_adhoc
   {mod_configure,[]}, % requires mod_adhoc
   {mod_caps,     []},
-  {mod_pubsub,   [ % requires mod_caps
-		  {access_createnode, pubsub_createnode},
-		  {plugins, ["default", "pep"]}
-		 ]},
+  {mod_pubsub,   [
+                  {access_createnode, pubsub_createnode},
+                  {ignore_pep_from_offline, true},
+                  {last_item_cache, false},
+                  {max_items_node, 10000},
+                  {plugins, <%= @ejabberd[:pubsub].inspect %>}  % pep requires mod_caps
+                 ]},
   {mod_disco,    []},
   {mod_service_log,[]},
   {mod_stats,    []},
@@ -175,7 +201,11 @@
   {mod_privacy,  []},
   {mod_private,  []},
   {mod_roster,   []},
+<% if @ejabberd[:auth_method][:ldap] -%>
+  {mod_vcard_ldap, []},
+<% else %>
   {mod_vcard,    []},
+<% end -%>
 <% if @ejabberd[:modules].include? "http_bind" -%>
   {mod_http_bind,[]},
 <% end -%>
@@ -184,6 +214,9 @@
 <% end -%>
 <% if @ejabberd[:modules].include? "mod_rabbitmq" -%>
   {mod_rabbitmq, []},
+<% end -%>
+<% if @ejabberd[:modules].include? "mod_rest" -%>
+  {mod_rest, [ {allowed_ips, [ {127,0,0,1} ]} ]},
 <% end -%>
 <% if @ejabberd[:modules].include? "mod_archive_odbc" -%>
   {mod_archive_odbc, [{database_type, "mysql"},

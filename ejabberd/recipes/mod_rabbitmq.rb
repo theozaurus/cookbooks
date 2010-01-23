@@ -19,8 +19,8 @@ bash "make rabbitmq-xmpp" do
 end
 
 bash "install rabbitmq-xmpp" do
-  code "cp /tmp/rabbitmq-xmpp/ebin/*.beam /var/lib/ejabberd/ebin/"
-  creates "/var/lib/ejabberd/ebin/mod_rabbitmq.beam"
+  code "cp /tmp/rabbitmq-xmpp/ebin/*.beam #{node[:ejabberd][:ebin]}/"
+  creates "#{node[:ejabberd][:ebin]}/mod_rabbitmq.beam"
   notifies :run, resources(:bash => "adjust ejabberd owners")
   notifies :stop, resources(:service => "rabbitmq-server"), :immediately
   notifies :disable, resources(:service => "rabbitmq-server"), :immediately
